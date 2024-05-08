@@ -1,4 +1,6 @@
 class ProductScrapersController < ApplicationController
+  before_action :validate_product_url
+
   def create
     product = ScrapingProductService.new(scrap_params[:product_url]).scrape_product
     
