@@ -8,17 +8,17 @@ class ScrapingProductService
 
   def scrape_product
     response = HTTParty.get(@url, headers: { 'Referer' => '' })
-    doc = Nokogiri::HTML(response.body)
-    @category_name = doc.at_css("._7dPnhA").children[1].at_css(".R0cyWM").text
-    @product_title = doc.at_css(".VU-ZEz").text
-    @size = doc.at_css(".CDDksN.zmLe5G.dpZEpc")&.text
+    @doc = Nokogiri::HTML(response.body)
+    @category_name = @doc.at_css("._7dPnhA").children[1].at_css(".R0cyWM").text
+    @product_title = @doc.at_css(".VU-ZEz").text
+    @size = @doc.at_css(".CDDksN.zmLe5G.dpZEpc")&.text
     @details = {}
-    doc.css('.sBVJqn .row').each do |row|
+    @doc.css('.sBVJqn .row').each do |row|
       key = row.at_css('.col-3-12').text.strip
       value = row.at_css('.col-9-12').text.strip
       @details[key] = value
     end
-    @price = doc.css(".hl05eU .Nx9bqj.CxhGGd").text.gsub("₹", "").to_i
+    @price = @doc.css(".hl05eU .Nx9bqj.CxhGGd").text.gsub("₹", "").gsub(",", "").to_i
 
     build_category
     build_product

@@ -1,9 +1,11 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+product_urls = [
+    "https://www.flipkart.com/flokestone-analog-watch-men/p/itm34cb62239620f",
+    "https://www.flipkart.com/empeno-trendy-lightweight-nagra-mojaris-men/p/itmfa68384fcace0",
+    "https://www.flipkart.com/black-deer-men-ethnic-top-pant-set/p/itm2f0da842d49fa",
+    "https://www.flipkart.com/red-tape-sports-athleisure-shoes-men-soft-cushioned-insole-slip-resistance-walking/p/itm5442f5743fd45"
+  ]
+product_urls.each do |product_url|
+  product = ScrapingProductService.new(product_url).scrape_product
+end
+
+puts "Seed Run Successfully"
